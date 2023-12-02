@@ -16,12 +16,9 @@ export default function FileUpload() {
     }
 
     setIsUploading(true);
-    const data = new FormData();
-    data.append("file", file);
-
     fetch("https://localhost/fileupload", {
       method: "POST",
-      body: data,
+      body: { base64: btoa(file) },
     })
       .then((res) => {
         if (res.status === 200) {
