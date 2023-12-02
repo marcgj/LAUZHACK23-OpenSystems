@@ -31,6 +31,16 @@ def make_query(msg: str):
     messages.append(message)
     return message.content
 
+def set_context():
+    global context
+    context = '''This is a set of LOGS from a web server, the columns are IP,Time,URL,Status
+    Remember all the information from those logs, tey are also called data. I will ask you questions
+    about the information that it contains. You should behave like a data analyst and I am your boss asking
+    questions and giving you different tasks. Don't rush for an answer, take your time, I want final answers, 
+    I shouldn't do anything, don't make me calculate anything, do it yourself. '''
+
+    previous_questions_and_answers.append({"role":"system", "content": context + "That's the dataset" + file_text})
+
 
 @app.route("/upload", methods=["POST"])
 def upload_file():
