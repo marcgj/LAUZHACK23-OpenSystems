@@ -41,19 +41,6 @@ def upload_file():
     return "File uploaded"
 
 
-@app.route("/first-call", methods=["GET"])
-def call_api():
-    global file_text
-
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    #if 'file' not in request.files:
-    #    return 'No file selected', 400
-    f = request.files['file']
-    file_text = f.read()
-    print(f"File Content {file_text.decode()}")
-    messages.append({"role":"system", "content": "That's the dataset" + file_text.decode()})
-    return("File uploaded")
     
 
 
