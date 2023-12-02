@@ -21,8 +21,9 @@ export default function FileUpload() {
       const base64 = reader.result.split(",")[1];
 
       setIsUploading(true);
-      fetch("https://localhost/fileupload", {
+      fetch("http://127.0.0.1:5000/upload", {
         method: "POST",
+        mode: "no-cors",
         headers: {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
