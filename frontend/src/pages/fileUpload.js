@@ -10,6 +10,7 @@ export default function FileUpload() {
   function onSubmit(e) {
     e.preventDefault();
     setErrorMsg("");
+    console.log(file);
 
     if (!file) {
       setErrorMsg("No file selected!");
@@ -55,35 +56,33 @@ export default function FileUpload() {
   );
 
   return (
-    <div className="flex flex-col h-screen text-white">
-      <form
-        className="m-auto bg-white/30 backdrop-blur-sm text-center p-4 rounded w-1/3 shadow-md"
-        onSubmit={onSubmit}
-      >
-        {isUploading ? (
-          spinner
-        ) : (
-          <label htmlFor="upload">
-            <div className="m-auto border-dashed   flex flex-col justify-items-center border-2 rounded py-8  hover:cursor-pointer">
-              <small className="">Drag or select file</small>
-            </div>
-            <input
-              type="file"
-              id="upload"
-              className="hidden"
-              onChange={(e) => setFile(e.target.files[0])}
-            />
-          </label>
-        )}
+    <form
+      className="m-auto bg-white/30 backdrop-blur-sm text-center p-4 rounded w-1/3 shadow-md"
+      onSubmit={onSubmit}
+    >
+      {isUploading ? (
+        spinner
+      ) : (
+        <label htmlFor="upload">
+          <div className="m-auto border-dashed   flex flex-col justify-items-center border-2 rounded py-8  hover:cursor-pointer">
+            <small className="">{file ? file.name : "Select file"}</small>
+          </div>
+          <input
+            type="file"
+            id="upload"
+            className="hidden"
+            onChange={(e) => setFile(e.target.files[0])}
+          />
+        </label>
+      )}
 
-        <button
-          type="submit"
-          className="p-2 mb-2 m-auto mt-3 mt shadow-sm bg-green-600/90 backdrop-blur-sm w-full rounded hover:bg-green-700/90"
-        >
-          Upload File
-        </button>
-        <span className="text-red-500 drop-shadow-sm ">{errorMsg}</span>
-      </form>
-    </div>
+      <button
+        type="submit"
+        className="p-2 mb-2 m-auto mt-3 mt shadow-sm bg-green-600/90 backdrop-blur-sm w-full rounded hover:bg-green-700/90"
+      >
+        Upload File
+      </button>
+      <span className="text-red-500 drop-shadow-sm ">{errorMsg}</span>
+    </form>
   );
 }
