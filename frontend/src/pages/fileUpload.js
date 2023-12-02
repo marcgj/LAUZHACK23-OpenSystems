@@ -15,20 +15,31 @@ export default function FileUpload() {
       return;
     }
 
-    setIsUploading(true);
-    fetch("https://localhost/fileupload", {
-      method: "POST",
-      body: { base64: btoa(file) },
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          navigate("chat");
-        }
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const base64 = reader.result.split(",")[1];
+
+      setIsUploading(true);
+      fetch("http://127.0.0.1:5000/upload", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({ base64: base64 }),
       })
-      .catch((err) => {
-        setIsUploading(false);
-        setErrorMsg("Error while uploading file");
-      });
+        .then((res) => {
+          if (res.status === 200) {
+            navigate("chat");
+          }
+        })
+        .catch((err) => {
+          setIsUploading(false);
+          setErrorMsg("Error while uploading file");
+        });
+    };
   }
 
   const spinner = (

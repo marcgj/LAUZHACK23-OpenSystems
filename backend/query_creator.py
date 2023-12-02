@@ -2,12 +2,14 @@ from flask import Flask
 from flask import request
 from config import OPENAI_API_KEY
 import openai
+from base64 import b64decode
+from json import loads
 
 
 messages = []
 
 app = Flask(__name__)
-client = openai.Client(api_key= OPENAI_API_KEY)
+client = openai.Client(api_key=OPENAI_API_KEY)
 
 global context
 global file_text
@@ -30,6 +32,18 @@ def make_query(msg: str):
     return message.content
 
 
+@app.route("/upload", methods=["POST"])
+def upload_file():
+    global file_text
+
+    b64 = loads(request.data)
+    file_text = b64decode(b64.get("base64")).decode()
+    return "File uploaded"
+
+
+@app.route("/first-call", methods=["GET"])
+def call_api():
+    global file_text
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -46,8 +60,8 @@ def upload_file():
 @app.route('/get_response', methods=['GET'])
 def call_api():
 
-    #Check if there is text to process
-    #if not file_text:
+    # Check if there is text to process
+    # if not file_text:
     #    return 'No file selected, use POST /upload to upload it', 400
 
     # build the messages
@@ -59,12 +73,13 @@ def call_api():
     # Puedes manejar la respuesta generada aquí
     print('GPT ANSWER:', gpt_response)
 
-    return (gpt_response)
+    return gpt_response
 
 
 @app.route("/")
 def hello_world():
     return "<p>Welcome To Our Project!</p>"
+
 
 if __name__ == '__main__':
     previous_questions_and_answers = [""]
