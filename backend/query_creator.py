@@ -20,7 +20,7 @@ def make_query(msg: str):
         model="gpt-3.5-turbo",
         messages= messages,
         temperature=0.33,
-        max_tokens=256,
+        max_tokens=600,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0
@@ -30,23 +30,21 @@ def make_query(msg: str):
     return message.content
 
 
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    global file_text
-
-    if 'file' not in request.files:
-        return 'No file selected', 400
-
+    #if 'file' not in request.files:
+    #    return 'No file selected', 400
     f = request.files['file']
     file_text = f.read()
-    print(f"File Content {file_text}")
+    print(f"File Content {file_text.decode()}")
+    messages.append({"role":"system", "content": "That's the dataset" + file_text.decode()})
     return("File uploaded")
     
 
 
 @app.route('/get_response', methods=['GET'])
 def call_api():
-    file_text = "1 2 3 caliente"
 
     #Check if there is text to process
     #if not file_text:
