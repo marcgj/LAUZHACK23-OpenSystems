@@ -56,7 +56,6 @@ def set_context():
 @app.route("/upload", methods=["POST", "OPTIONS"])
 def upload_file():
     global file_text
-
     b64 = loads(request.data)
     file_text = b64decode(b64.get("base64")).decode()
     set_context()

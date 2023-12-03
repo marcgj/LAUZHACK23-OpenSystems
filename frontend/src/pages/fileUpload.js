@@ -10,8 +10,6 @@ export default function FileUpload() {
   function onSubmit(e) {
     e.preventDefault();
     setErrorMsg("");
-    console.log(file);
-
     if (!file) {
       setErrorMsg("No file selected!");
       return;
@@ -25,14 +23,10 @@ export default function FileUpload() {
       setIsUploading(true);
       fetch("http://127.0.0.1:5000/upload", {
         method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json",
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
         body: JSON.stringify({ base64: base64 }),
       })
         .then((res) => {
+          console.log(res);
           if (res.status === 200) {
             navigate("chat");
           }
@@ -46,10 +40,10 @@ export default function FileUpload() {
 
   const spinner = (
     <div
-      class="block h-8 w-8 m-auto animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+      className="block h-8 w-8 m-auto animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
       role="status"
     >
-      <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+      <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
         Loading...
       </span>
     </div>

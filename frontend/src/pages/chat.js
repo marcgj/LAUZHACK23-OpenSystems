@@ -21,7 +21,6 @@ export default function Chat() {
     fetch("http://127.0.0.1:5000/get_response", {
       method: "POST",
       body: message,
-      mode: "cors",
     })
       .then((res) => {
         if (res.status === 400) navigate("/");
