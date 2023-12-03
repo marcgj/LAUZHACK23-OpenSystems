@@ -23,10 +23,8 @@ def doRequest(method, url, data):
 def actions(message):
 
     query = message.text
-    response = doRequest("GET", "/get_response", {"query":query})
-    send_response  = json.loads(response)
-    send_response = send_response["response"]
-    bot.send_message(message.chat.id, send_response)
+    response = doRequest("POST", "/get_response", {"query":query})
+    bot.send_message(message.chat.id, response)
 
 if __name__ == '__main__':
     bot.infinity_polling()
