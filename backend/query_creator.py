@@ -15,6 +15,7 @@ client = openai.Client(api_key=OPENAI_API_KEY)
 
 global context
 global file_text
+file_text = None
 previous_questions_and_answers = []
 MAX_CONTEXT_QUESTIONS = 30
 
@@ -65,8 +66,9 @@ def upload_file():
 @app.route("/get_response", methods=["POST", "OPTIONS"])
 def call_api():
     # Check if there is text to process
-    # if not file_text:
-    #    return 'No file selected, use POST /upload to upload it', 400
+    global file_text
+    if not file_text:
+        return "No file selected, use POST /upload to upload it", 400
 
     # build the messages
 

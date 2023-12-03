@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ChatMessage from "../components/chatMessage";
+import { useNavigate } from "react-router-dom";
 
 export default function Chat() {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState();
+
+  const navigate = useNavigate();
 
   function buildMessage(isUser, content) {
     return { isUser: isUser, content: content };
@@ -20,9 +23,11 @@ export default function Chat() {
       body: message,
       mode: "cors",
     })
-      .then((res) => res.text())
+      .then((res) => {
+        if (res.status === 400) navigate("/");
+        return res.text();
+      })
       .then((msg) => {
-        console.log(msg);
         temp.push(buildMessage(false, msg));
         setMessages(messages.concat(temp));
       });
