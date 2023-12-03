@@ -14,8 +14,19 @@ export default function Chat() {
 
     const temp = [];
     temp.push(buildMessage(true, message));
-    temp.push(buildMessage(false, "chupamela"));
     setMessages(messages.concat(temp));
+    fetch("http://127.0.0.1:5000/get_response", {
+      method: "POST",
+      body: message,
+      mode: "cors",
+    })
+      .then((res) => res.text())
+      .then((msg) => {
+        console.log(msg);
+        temp.push(buildMessage(false, msg));
+        setMessages(messages.concat(temp));
+      });
+
     setMessage("");
   }
 
