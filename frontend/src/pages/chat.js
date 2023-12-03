@@ -39,7 +39,7 @@ export default function Chat() {
       <div className="w-2/3 m-auto">
         <div
           style={{ height: "70vh" }}
-          className="flex flex-col my-auto bg-white/30 p-3 backdrop-blur-sm rounded-t overflow-scroll"
+          className="flex flex-col my-auto bg-white/30 p-3 backdrop-blur-sm rounded-t overflow-y-auto"
         >
           {messages.map(({ isUser, content }) => (
             <ChatMessage isUser={isUser} content={content} />
