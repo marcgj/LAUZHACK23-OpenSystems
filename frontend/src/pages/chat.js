@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ChatMessage from "../components/chatMessage";
 import { useNavigate } from "react-router-dom";
 
@@ -7,6 +7,7 @@ export default function Chat() {
   const [message, setMessage] = useState();
 
   const navigate = useNavigate();
+  const messagesContainerRef = useRef();
 
   function buildMessage(isUser, content) {
     return { isUser: isUser, content: content };
@@ -34,15 +35,21 @@ export default function Chat() {
     setMessage("");
   }
 
+  useEffect(() => {
+    // Hacer scroll hacia abajo al agregar un nuevo mensaje
+    messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+  }, [messages]);
+
   return (
     <>
       <div className="w-2/3 m-auto">
         <div
+          ref={messagesContainerRef}
           style={{ height: "70vh" }}
           className="flex flex-col my-auto bg-white/30 p-3 backdrop-blur-sm rounded-t overflow-y-auto"
         >
-          {messages.map(({ isUser, content }) => (
-            <ChatMessage isUser={isUser} content={content} />
+          {messages.map(({ isUser, content }, index) => (
+            <ChatMessage key={index} isUser={isUser} content={content} />
           ))}
         </div>
         <input
